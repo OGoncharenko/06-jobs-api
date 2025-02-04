@@ -31,7 +31,7 @@ export const setToken = (value) => {
 
 export let message = null;
 
-import {showPosts, handleNewPost, handlePosts} from "./posts.js";
+import {showPosts, handlePosts} from "./posts.js";
 import { showLoginRegister, handleLoginRegister } from "./loginRegister.js";
 import { handleLoginUser } from "./loginUser.js";
 import { handleAddEditPost } from "./addEditPost.js";
@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
   handleLoginUser();
   handleAddEditPost();
   handleRegisterUser();
-  handleNewPost();
   handlePosts();
 
   if (token) {

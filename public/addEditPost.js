@@ -13,6 +13,7 @@ let content = null;
 let postId = null;
 
 export const handleAddEditPost = () => {
+  console.log("handleAddEditPost");
   addEditPostDiv = document.getElementById("edit-post-div");
   title = document.getElementById("title");
   content = document.getElementById("content");
@@ -20,6 +21,9 @@ export const handleAddEditPost = () => {
   const cancelPostBtn = document.getElementById("cancel-edit-post");
 
   addEditPostDiv.addEventListener("click", async (e) => {
+    console.log("e.target.id", e.target.id)
+    console.log({inputEnabled})
+    console.log("e.target.nodeName", e.target.nodeName)
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target.id === "save-post") {
         enableInput(false);
