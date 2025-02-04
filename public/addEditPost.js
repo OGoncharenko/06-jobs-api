@@ -13,11 +13,11 @@ let content = null;
 let postId = null;
 
 export const handleAddEditPost = () => {
-  addEditPostDiv = document.getElementById("edit-post");
+  addEditPostDiv = document.getElementById("edit-post-div");
   title = document.getElementById("title");
   content = document.getElementById("content");
   const savePostBtn = document.getElementById("save-post");
-  const cancelPostBtn = document.getElementById("cancel-edit");
+  const cancelPostBtn = document.getElementById("cancel-edit-post");
 
   addEditPostDiv.addEventListener("click", async (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
@@ -59,7 +59,7 @@ export const handleAddEditPost = () => {
           message.textContent = "Error saving post";
         }
         enableInput(true);
-      } else if (e.target.id === "cancel-edit") {
+      } else if (e.target.id === "cancel-edit-post") {
         message.textContent = "";
         showPosts();
       }

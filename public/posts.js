@@ -35,7 +35,7 @@ export const handlePosts = () => {
   });
 
   addNewPostBtn.addEventListener("click", () => {
-    const newPostDiv = document.getElementById("new-post-div");
+    const newPostDiv = document.getElementById("edit-post-div");
     newPostDiv.style.display = "block";
   });
 }
@@ -111,6 +111,6 @@ export const showPosts = async () => {
 }
 
 export const handleNewPost = () => {
-  const newPostDiv = document.getElementById("new-post-div");
+  const newPostDiv = document.getElementById("edit-post-div");
   setDiv(newPostDiv);
 }
