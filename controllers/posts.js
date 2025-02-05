@@ -52,7 +52,7 @@ const deletePost = async (req, res) => {
   if (!post) {
     throw new NotFoundError(`No post with id : ${postId}`);
   }
-  res.status(StatusCodes.OK).send();
+  res.status(StatusCodes.OK).json({ msg: "The entry was deleted." });
 }
 
 module.exports = {
