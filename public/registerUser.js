@@ -7,7 +7,7 @@ import {
   setToken
 } from "./index.js";
 import {showLoginRegister} from "./loginRegister.js";
-// import {showPosts} from "./posts.js";
+import {showPosts} from "./posts.js";
 
 let registerDiv = null;
 let username = null;
@@ -21,8 +21,6 @@ export const handleRegisterUser = () => {
   email = document.getElementById("email1");
   password1 = document.getElementById("password1");
   password2 = document.getElementById("password2");
-  const registerBtn = document.getElementById("register-button");
-  const cancelRegisterBtn = document.getElementById("register-cancel");
 
   registerDiv.addEventListener("click", async (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
@@ -48,7 +46,7 @@ export const handleRegisterUser = () => {
 
             const data = await response.json();
             if (response.status === 201) {
-              message.textContent = `Registered successfully. Welcome ${data.user.username}`;
+              message.textContent = `Registered successfully`;
               setToken(data.token);
 
               username.value = null;

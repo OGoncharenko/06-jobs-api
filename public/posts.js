@@ -7,7 +7,7 @@ import {
   setToken
 } from "./index.js";
 import {showLoginRegister} from "./loginRegister.js";
-import {showAddEditPost} from "./addEditPost.js";
+import {handleAddEditPost, showAddEditPost} from "./addEditPost.js";
 
 let postsContainer = document.getElementById("posts-container");
 let activePostDiv = null;
@@ -33,15 +33,18 @@ export const handlePosts = () => {
 
   postsContainer.addEventListener("click", (e) => {
     if (!inputEnabled) return;
-    console.log('e.target.id', e.target.id)
 
-    if (e.target.id === "edit-post") {
+    if (e.target.classList.contains("saveButton")) {
       const postId = e.target.dataset.id;
       showAddEditPost(postId);
-    } else if (e.target.id === "delete-post") {
+    } else if (e.target.classList.contains("deleteButton")) {
       const postId = e.target.dataset.postid;
       deletePost(postId);
       showPosts()
+    } else if (e.target.classList.contains("editButton")) {
+      const postId = e.target.dataset.id;
+      handleAddEditPost();
+      showAddEditPost(postId);
     }
   });
 
@@ -114,8 +117,8 @@ export const showPosts = async () => {
       div.innerHTML = `
         <h2>${post.title}</h2>
         <p>${post.content}</p>
-        <button id="edit-post">Edit</button>
-        <button data-postid="${post._id}" id="delete-post">Delete</button>
+        <button class="editButton" id="edit-post" data-id="${post._id}">Edit</button>
+        <button class="deleteButton" data-postid="${post._id}" id="delete-post">Delete</button>
       `;
       postsList.appendChild(div);
     });
@@ -125,6 +128,5 @@ export const showPosts = async () => {
     message.textContent = "Error fetching posts";
   }
   enableInput(true);
-  document.getElementById("new-post").style.display = "block";
   setDiv(postsContainer);
 }

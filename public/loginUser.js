@@ -17,11 +17,8 @@ export const handleLoginUser = () => {
   loginDiv = document.getElementById("login-div");
   email = document.getElementById("email");
   password = document.getElementById("password");
-  const loginBtn = document.getElementById("login-button");
-  const cancelLoginBtn = document.getElementById("cancel-login");
 
   loginDiv.addEventListener("click", async (e) => {
-    console.log("loginDiv.addEventListener");
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target.id === "login-button") {
         enableInput(false);
@@ -40,7 +37,7 @@ export const handleLoginUser = () => {
 
           const data = await response.json();
           if (response.status === 200) {
-            message.textContent = `Login successfully. Welcome back ${data.username}`;
+            message.textContent = `Login successful`;
             setToken(data.token);
 
             email.value = null;
