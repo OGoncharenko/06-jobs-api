@@ -34,16 +34,14 @@ export const handlePosts = () => {
   postsContainer.addEventListener("click", (e) => {
     if (!inputEnabled) return;
 
+    const postId = e.target.dataset.id || e.target.dataset.postid;
+
     if (e.target.classList.contains("saveButton")) {
-      const postId = e.target.dataset.id;
       showAddEditPost(postId);
     } else if (e.target.classList.contains("deleteButton")) {
-      const postId = e.target.dataset.postid;
       deletePost(postId);
       showPosts()
     } else if (e.target.classList.contains("editButton")) {
-      const postId = e.target.dataset.id;
-      handleAddEditPost();
       showAddEditPost(postId);
     }
   });
@@ -55,8 +53,7 @@ export const handlePosts = () => {
   });
 
   addNewPostBtn.addEventListener("click", () => {
-    const newPostDiv = document.getElementById("edit-post-div");
-    setPostDiv(newPostDiv);
+    showAddEditPost();
     enableInput(true);
   });
 }
@@ -73,9 +70,10 @@ const deletePost = async (postId) => {
       }
     });
 
-    if (response.status === 200) {
+    const data = await response.json();
+
+    if (response.ok) {
       message.textContent = "Post deleted successfully";
-      showPosts();
     } else {
       message.textContent = "Error deleting post";
     }
@@ -100,13 +98,15 @@ export const showPosts = async () => {
     })
 
     const data = await response.json();
-    if (response.status !== 200) {
+
+    if (!response.ok) {
       message.textContent = data.message || "Error fetching posts";
       setDiv(postsContainer);
       return;
     }
     const postsList = document.getElementById("posts-list")
     postsList.innerHTML = "";
+
     if (data.posts.length === 0) {
       message.textContent = "No posts found";
       setDiv(postsContainer);
@@ -122,6 +122,7 @@ export const showPosts = async () => {
       `;
       postsList.appendChild(div);
     });
+
     setPostDiv(postsList);
   } catch (error) {
     console.error(error);

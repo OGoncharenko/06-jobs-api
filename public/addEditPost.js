@@ -10,7 +10,6 @@ import {showPosts} from "./posts.js";
 let addEditPostDiv = null;
 let title = null;
 let content = null;
-let postId = null;
 let saveButton = null;
 
 export const handleAddEditPost = () => {
@@ -51,12 +50,11 @@ export const handleAddEditPost = () => {
             if (response.status === 200) {
               message.textContent = "Post updated successfully";
             } else {
-            message.textContent = "Post created successfully";
+              message.textContent = "Post created successfully";
             }
 
             title.value = "";
             content.value = "";
-            postId = "";
             showPosts();
           } else {
             message.textContent = data.message;
@@ -75,49 +73,51 @@ export const handleAddEditPost = () => {
 }
 
 export const showAddEditPost = async (postId) => {
+  addEditPostDiv = document.getElementById("edit-post-div");
+  title = document.getElementById("title");
+  content = document.getElementById("content");
+  saveButton = document.getElementById("save-post");
 
   if (!postId) {
     title.value = "";
     content.value = "";
-    addEditPostDiv.dataset.id = "";
+    delete addEditPostDiv.dataset.id;
     saveButton.textContent = "Save";
     message.textContent = "";
-
     setDiv(addEditPostDiv);
-  } else {
-    enableInput(false);
+    return;
+  }
 
-    try {
-      const response = await fetch(`/api/v1/posts/${postId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        }
-      });
+  enableInput(false);
 
-      const data = await response.json();
-      if (response.status === 200) {
-        title.value = data.post.title;
-        content.value = data.post.content;
-        saveButton.textContent = "Update";
-        message.textContent = "";
-        addEditPostDiv.dataset.id = postId;
-
-        setDiv(addEditPostDiv);
-        addEditPostDiv.style.display = "block";
-      } else {
-        message.textContent = "Post not found";
-        showPosts();
+  try {
+    const response = await fetch(`/api/v1/posts/${postId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       }
-    } catch {
-      console.error(error);
-      message.textContent = "Error fetching post";
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      title.value = data.post.title;
+      content.value = data.post.content;
+      saveButton.textContent = "Update";
+      message.textContent = "";
+      addEditPostDiv.dataset.id = postId;
+
+      setDiv(addEditPostDiv);
+    } else {
+      message.textContent = "Post not found";
       showPosts();
     }
+  } catch (error) {
+    console.error(error);
+    message.textContent = "Error fetching post";
+    showPosts();
+  } finally {
     enableInput(true);
   }
 };
-
-
-
